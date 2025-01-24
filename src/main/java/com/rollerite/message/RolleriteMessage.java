@@ -38,6 +38,19 @@ public enum RolleriteMessage implements TranslatableMessage<RolleriteMessage.Con
 	{
 		Placeholder.component("player", context.getPlayer().displayName()),
 	}),
+	
+	COMMAND_GOD_USAGE("command.god.usage"),
+	COMMAND_GOD_CONSOLE_USAGE("command.god.console-usage"),
+	COMMAND_GOD_ENABLE("command.god.enable"),
+	COMMAND_GOD_DISABLE("command.god.disable"),
+	COMMAND_GOD_TARGET_ENABLE("command.god.target-enable", (locale, context) -> new TagResolver[]
+	{
+		Placeholder.component("player", context.getPlayer().displayName()),
+	}),
+	COMMAND_GOD_TARGET_DISABLE("command.god.target-disable", (locale, context) -> new TagResolver[]
+	{
+		Placeholder.component("player", context.getPlayer().displayName()),
+	}),
 	;
 	
 	private final String key;

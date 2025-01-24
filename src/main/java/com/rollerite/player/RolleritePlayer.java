@@ -5,6 +5,7 @@ import com.rollerite.i18n.Messageable;
 import com.rollerite.sender.RolleriteCommandSender;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
@@ -12,10 +13,13 @@ import java.util.Locale;
 
 @RequiredArgsConstructor
 @Getter
+@Setter
 public class RolleritePlayer implements RolleriteCommandSender
 {
 	private final RolleritePlugin rolleritePlugin;
 	private final Player player;
+	
+	private boolean godMode;
 	
 	@Override
 	public void sendMessage(Component component)

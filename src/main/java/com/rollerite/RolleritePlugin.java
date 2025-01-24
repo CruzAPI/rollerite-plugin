@@ -1,7 +1,9 @@
 package com.rollerite;
 
 import com.rollerite.command.GamemodeCommand;
+import com.rollerite.command.GodCommand;
 import com.rollerite.console.RolleriteConsole;
+import com.rollerite.listener.GodModeListener;
 import com.rollerite.listener.PlayerListener;
 import com.rollerite.sender.UnknownCommandSender;
 import com.rollerite.service.CommandSenderManager;
@@ -59,6 +61,7 @@ public class RolleritePlugin extends JavaPlugin
 	private void registerCommands()
 	{
 		registerBasicCommand("gamemode", new GamemodeCommand(this));
+		registerBasicCommand("god", new GodCommand(this));
 	}
 	
 	private void registerBasicCommand(String label, BasicCommand basicCommand, String... aliases)
@@ -78,6 +81,7 @@ public class RolleritePlugin extends JavaPlugin
 	
 	private void registerListeners()
 	{
+		registerListener(new GodModeListener(this));
 		registerListener(playerListener = new PlayerListener(this));
 	}
 	

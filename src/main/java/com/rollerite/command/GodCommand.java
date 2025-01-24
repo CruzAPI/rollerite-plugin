@@ -4,7 +4,6 @@ import com.rollerite.RolleritePlugin;
 import com.rollerite.message.RolleriteMessage;
 import com.rollerite.player.RolleritePlayer;
 import com.rollerite.sender.RolleriteCommandSender;
-import com.rollerite.type.Gamemode;
 import io.papermc.paper.command.brigadier.BasicCommand;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ import java.util.List;
 import static com.rollerite.message.RolleriteMessage.*;
 
 @RequiredArgsConstructor
-public class GamemodeCommand implements BasicCommand
+public class GodCommand implements BasicCommand
 {
 	private final RolleritePlugin rolleritePlugin;
 	
@@ -33,22 +32,9 @@ public class GamemodeCommand implements BasicCommand
 		{
 			String arg0 = args.length == 0 ? "" : args[0];
 			
-			for(Gamemode gamemode : Gamemode.values())
-			{
-				if(gamemode.name().toLowerCase().startsWith(arg0.toLowerCase()))
-				{
-					suggestions.add(gamemode.name().toLowerCase());
-				}
-			}
-			
-			return suggestions;
-		}
-		
-		if(args.length == 2)
-		{
 			for(Player player : rolleritePlugin.getServer().getOnlinePlayers())
 			{
-				if(player.getName().toLowerCase().startsWith(args[1].toLowerCase()))
+				if(player.getName().toLowerCase().startsWith(arg0.toLowerCase()))
 				{
 					suggestions.add(player.getName());
 				}
@@ -66,24 +52,14 @@ public class GamemodeCommand implements BasicCommand
 		CommandSender commandSender = commandSourceStack.getSender();
 		RolleriteCommandSender rolleriteCommandSender = rolleritePlugin.getCommandSenderManager().getCommandSender(commandSender);
 		
-		if(args.length == 1 && rolleriteCommandSender instanceof RolleritePlayer rolleritePlayer
-				|| args.length == 2)
+		if(args.length == 0 && rolleriteCommandSender instanceof RolleritePlayer rolleritePlayer
+				|| args.length == 1)
 		{
 			Context ctx = new Context();
 			
-			Gamemode gamemode = Gamemode.getByArg(args[0]);
-			
-			ctx.gamemode(gamemode);
-			
-			if(gamemode == null)
-			{
-				rolleriteCommandSender.sendMessage(GAME_MODE_NOT_FOUND, ctx);
-				return;
-			}
-			
-			Player target = args.length == 1
+			Player target = args.length == 0
 					? ((RolleritePlayer) rolleriteCommandSender).getPlayer()
-					: rolleritePlugin.getServer().getPlayerExact(args[1]);
+					: rolleritePlugin.getServer().getPlayerExact(args[0]);
 			
 			ctx.player(target);
 			
@@ -93,23 +69,25 @@ public class GamemodeCommand implements BasicCommand
 				return;
 			}
 			
-			boolean changed = target.getGameMode() != gamemode.getBukkitGameMode();
-			target.setGameMode(gamemode.getBukkitGameMode());
+			RolleritePlayer targetRolleritePlayer = rolleritePlugin.getPlayerListener().get(target);
+			
+			targetRolleritePlayer.setGodMode(!targetRolleritePlayer.isGodMode());
+			boolean godMode = targetRolleritePlayer.isGodMode();
 			
 			if(commandSender == target)
 			{
-				rolleriteCommandSender.sendMessage(changed ? COMMAND_GAMEMODE_CHANGED : COMMAND_GAMEMODE_ALREADY, ctx);
+				rolleriteCommandSender.sendMessage(godMode ? COMMAND_GOD_ENABLE : COMMAND_GOD_DISABLE, ctx);
 			}
 			else
 			{
-				rolleriteCommandSender.sendMessage(changed ? COMMAND_GAMEMODE_TARGET_CHANGED : COMMAND_GAMEMODE_TARGET_ALREADY, ctx);
+				rolleriteCommandSender.sendMessage(godMode ? COMMAND_GOD_TARGET_ENABLE : COMMAND_GOD_TARGET_DISABLE, ctx);
 			}
 		}
 		else
 		{
 			RolleriteMessage usageMessage = rolleriteCommandSender instanceof RolleritePlayer
-					? COMMAND_GAMEMODE_USAGE
-					: COMMAND_GAMEMODE_CONSOLE_USAGE;
+					? COMMAND_GOD_USAGE
+					: COMMAND_GOD_CONSOLE_USAGE;
 			rolleriteCommandSender.sendMessage(usageMessage);
 		}
 	}

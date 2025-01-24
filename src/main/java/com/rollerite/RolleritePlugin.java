@@ -1,7 +1,10 @@
 package com.rollerite;
 
-import com.rollerite.command.TestCommand;
+import com.rollerite.command.GamemodeCommand;
+import com.rollerite.console.RolleriteConsole;
 import com.rollerite.listener.PlayerListener;
+import com.rollerite.sender.UnknownCommandSender;
+import com.rollerite.service.CommandSenderManager;
 import com.rollerite.service.MessageBundleLoader;
 import com.rollerite.service.PropertiesLoader;
 import com.rollerite.service.ResourceCopier;
@@ -22,17 +25,27 @@ public class RolleritePlugin extends JavaPlugin
 	@Getter
 	private static RolleritePlugin instance;
 	
-	private PlayerListener playerListener;
+	private RolleriteConsole rolleriteConsole;
 	
+	private UnknownCommandSender unknownCommandSender;
+	
+	private CommandSenderManager commandSenderManager;
 	private MessageBundleLoader messageBundleLoader;
 	private PropertiesLoader propertiesLoader;
 	private ResourceCopier resourceCopier;
+	
+	private PlayerListener playerListener;
 	
 	@Override
 	public void onEnable()
 	{
 		instance = this;
 		
+		rolleriteConsole = new RolleriteConsole(this);
+		
+		unknownCommandSender = new UnknownCommandSender(this);
+		
+		commandSenderManager = new CommandSenderManager(this);
 		messageBundleLoader = new MessageBundleLoader(this);
 		propertiesLoader = new PropertiesLoader(this);
 		resourceCopier = new ResourceCopier(this);
@@ -45,7 +58,7 @@ public class RolleritePlugin extends JavaPlugin
 	
 	private void registerCommands()
 	{
-		registerBasicCommand("test", new TestCommand(this));
+		registerBasicCommand("gamemode", new GamemodeCommand(this));
 	}
 	
 	private void registerBasicCommand(String label, BasicCommand basicCommand, String... aliases)

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.rollerite.RolleritePlugin;
 import com.rollerite.i18n.MessageBundle;
 import com.rollerite.i18n.TranslatableMessage;
+import com.rollerite.type.Gamemode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -18,8 +19,22 @@ import java.util.function.BiFunction;
 @Getter
 public enum RolleriteMessage implements TranslatableMessage<RolleriteMessage.Context>
 {
-	HELLO_WORLD("hello.world"),
-	HELLO_PLAYER("hello.player", (locale, context) -> new TagResolver[]
+	PLAYER_NOT_FOUND("player-not-found"),
+	GAME_MODE_NOT_FOUND("game-mode-not-found"),
+	
+	COMMAND_GAMEMODE_USAGE("command.gamemode.usage"),
+	COMMAND_GAMEMODE_CONSOLE_USAGE("command.gamemode.console-usage"),
+	COMMAND_GAMEMODE_CHANGED("command.gamemode.changed", (locale, context) -> new TagResolver[]
+	{
+		Placeholder.component("gamemode", context.getGamemode().getStylishedTranslatableComponent()),
+	}),
+	COMMAND_GAMEMODE_TARGET_CHANGED("command.gamemode.target-changed", (locale, context) -> new TagResolver[]
+	{
+		Placeholder.component("player", context.getPlayer().displayName()),
+		Placeholder.component("gamemode", context.getGamemode().getStylishedTranslatableComponent()),
+	}),
+	COMMAND_GAMEMODE_ALREADY("command.gamemode.already"),
+	COMMAND_GAMEMODE_TARGET_ALREADY("command.gamemode.target-already", (locale, context) -> new TagResolver[]
 	{
 		Placeholder.component("player", context.getPlayer().displayName()),
 	}),
@@ -60,6 +75,7 @@ public enum RolleriteMessage implements TranslatableMessage<RolleriteMessage.Con
 	public static class Context
 	{
 		private Player player;
+		private Gamemode gamemode;
 		
 		public Context player(Player player)
 		{
@@ -67,9 +83,20 @@ public enum RolleriteMessage implements TranslatableMessage<RolleriteMessage.Con
 			return this;
 		}
 		
+		public Context gamemode(Gamemode gamemode)
+		{
+			this.gamemode = gamemode;
+			return this;
+		}
+		
 		public Player getPlayer()
 		{
 			return Preconditions.checkNotNull(player, "player is null");
+		}
+		
+		public Gamemode getGamemode()
+		{
+			return Preconditions.checkNotNull(gamemode, "gamemode is null");
 		}
 	}
 }

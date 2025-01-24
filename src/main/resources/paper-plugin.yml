@@ -1,0 +1,6 @@
+name: Rollerite
+version: '1.0'
+main: com.rollerite.RolleritePlugin
+api-version: '1.21.4'
+authors:
+  - CruzAPI

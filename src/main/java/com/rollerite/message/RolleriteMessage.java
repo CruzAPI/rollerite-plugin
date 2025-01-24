@@ -51,6 +51,8 @@ public enum RolleriteMessage implements TranslatableMessage<RolleriteMessage.Con
 	{
 		Placeholder.component("player", context.getPlayer().displayName()),
 	}),
+	
+	COMMAND_OPENINV_USAGE("command.openinv.usage"),
 	;
 	
 	private final String key;

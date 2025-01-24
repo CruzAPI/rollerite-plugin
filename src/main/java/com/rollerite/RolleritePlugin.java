@@ -2,6 +2,7 @@ package com.rollerite;
 
 import com.rollerite.command.GamemodeCommand;
 import com.rollerite.command.GodCommand;
+import com.rollerite.command.OpenInvCommand;
 import com.rollerite.console.RolleriteConsole;
 import com.rollerite.listener.GodModeListener;
 import com.rollerite.listener.PlayerListener;
@@ -62,6 +63,7 @@ public class RolleritePlugin extends JavaPlugin
 	{
 		registerBasicCommand("gamemode", new GamemodeCommand(this));
 		registerBasicCommand("god", new GodCommand(this));
+		registerBasicCommand("openinv", new OpenInvCommand(this), "invsee");
 	}
 	
 	private void registerBasicCommand(String label, BasicCommand basicCommand, String... aliases)

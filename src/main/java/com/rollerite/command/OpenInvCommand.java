@@ -1,7 +1,6 @@
 package com.rollerite.command;
 
 import com.rollerite.RolleritePlugin;
-import com.rollerite.message.RolleriteMessage;
 import com.rollerite.player.RolleritePlayer;
 import com.rollerite.sender.RolleriteCommandSender;
 import io.papermc.paper.command.brigadier.BasicCommand;
@@ -9,17 +8,18 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static com.rollerite.message.RolleriteMessage.*;
+import static com.rollerite.message.RolleriteMessage.COMMAND_OPENINV_USAGE;
+import static com.rollerite.message.RolleriteMessage.PLAYER_NOT_FOUND;
 
 @RequiredArgsConstructor
-public class GodCommand implements BasicCommand
+public class OpenInvCommand implements BasicCommand
 {
 	private final RolleritePlugin rolleritePlugin;
 	
@@ -52,49 +52,39 @@ public class GodCommand implements BasicCommand
 		CommandSender commandSender = commandSourceStack.getSender();
 		RolleriteCommandSender rolleriteCommandSender = rolleritePlugin.getCommandSenderManager().getCommandSender(commandSender);
 		
-		if(args.length == 0 && rolleriteCommandSender instanceof RolleritePlayer rolleritePlayer
-				|| args.length == 1)
+		if(!(rolleriteCommandSender instanceof RolleritePlayer rolleritePlayer))
 		{
-			Context ctx = new Context();
-			
-			Player target = args.length == 0
-					? ((RolleritePlayer) rolleriteCommandSender).getPlayer()
-					: rolleritePlugin.getServer().getPlayerExact(args[0]);
-			
-			ctx.player(target);
+			return;
+		}
+		
+		if(args.length == 1)
+		{
+			Player player = rolleritePlayer.getPlayer();
+			Player target = rolleritePlugin.getServer().getPlayerExact(args[0]);
 			
 			if(target == null)
 			{
-				rolleriteCommandSender.sendMessage(PLAYER_NOT_FOUND, ctx);
+				rolleriteCommandSender.sendMessage(PLAYER_NOT_FOUND);
 				return;
 			}
 			
-			RolleritePlayer targetRolleritePlayer = rolleritePlugin.getPlayerListener().get(target);
-			
-			targetRolleritePlayer.setGodMode(!targetRolleritePlayer.isGodMode());
-			boolean godMode = targetRolleritePlayer.isGodMode();
-			
-			if(commandSender == target)
-			{
-				rolleriteCommandSender.sendMessage(godMode ? COMMAND_GOD_ENABLE : COMMAND_GOD_DISABLE, ctx);
-			}
-			else
-			{
-				rolleriteCommandSender.sendMessage(godMode ? COMMAND_GOD_TARGET_ENABLE : COMMAND_GOD_TARGET_DISABLE, ctx);
-			}
+			player.openInventory(target.getInventory());
 		}
 		else
 		{
-			RolleriteMessage usageMessage = rolleriteCommandSender instanceof RolleritePlayer
-					? COMMAND_GOD_USAGE
-					: COMMAND_GOD_CONSOLE_USAGE;
-			rolleriteCommandSender.sendMessage(usageMessage);
+			rolleritePlayer.sendMessage(COMMAND_OPENINV_USAGE);
 		}
 	}
 	
 	@Override
-	public @Nullable String permission()
+	public @NotNull String permission()
 	{
-		return "command.god";
+		return "command.openinv";
+	}
+	
+	@Override
+	public boolean canUse(CommandSender sender)
+	{
+		return sender instanceof Player && sender.hasPermission(permission());
 	}
 }

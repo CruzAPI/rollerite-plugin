@@ -53,6 +53,7 @@ public enum RolleriteMessage implements TranslatableMessage<RolleriteMessage.Con
 	}),
 	
 	COMMAND_OPENINV_USAGE("command.openinv.usage"),
+	COMMAND_ENDERCHEST_USAGE("command.enderchest.usage"),
 	;
 	
 	private final String key;

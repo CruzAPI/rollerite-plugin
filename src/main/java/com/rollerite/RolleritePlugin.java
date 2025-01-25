@@ -1,5 +1,6 @@
 package com.rollerite;
 
+import com.rollerite.command.EnderchestCommand;
 import com.rollerite.command.GamemodeCommand;
 import com.rollerite.command.GodCommand;
 import com.rollerite.command.OpenInvCommand;
@@ -61,6 +62,7 @@ public class RolleritePlugin extends JavaPlugin
 	
 	private void registerCommands()
 	{
+		registerBasicCommand("enderchest", new EnderchestCommand(this));
 		registerBasicCommand("gamemode", new GamemodeCommand(this));
 		registerBasicCommand("god", new GodCommand(this));
 		registerBasicCommand("openinv", new OpenInvCommand(this), "invsee");

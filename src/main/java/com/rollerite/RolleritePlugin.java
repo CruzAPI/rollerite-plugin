@@ -60,6 +60,7 @@ public class RolleritePlugin extends JavaPlugin
 	private void registerCommands()
 	{
 		registerBasicCommand("enderchest", new EnderchestCommand(this));
+		registerBasicCommand("fix", new FixCommand(this));
 		registerBasicCommand("gamemode", new GamemodeCommand(this));
 		registerBasicCommand("god", new GodCommand(this));
 		registerBasicCommand("openinv", new OpenInvCommand(this), "invsee");

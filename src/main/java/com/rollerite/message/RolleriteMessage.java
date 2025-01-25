@@ -22,6 +22,15 @@ public enum RolleriteMessage implements TranslatableMessage<RolleriteMessage.Con
 	PLAYER_NOT_FOUND("player-not-found"),
 	GAME_MODE_NOT_FOUND("game-mode-not-found"),
 	
+	COMMAND_FIX_USAGE("command.fix.usage"),
+	COMMAND_FIX_HOLD_TOOL("command.fix.hold-tool"),
+	COMMAND_FIX_ONLY_TOOLS("command.fix.only-tools"),
+	COMMAND_FIX_CANNOT_REPAIR("command.fix.cannot-repair"),
+	COMMAND_FIX_ALREADY_REPAIRED("command.fix.already-repaired"),
+	COMMAND_FIX_REPAIRED("command.fix.repaired"),
+	
+	COMMAND_ENDERCHEST_USAGE("command.enderchest.usage"),
+	
 	COMMAND_GAMEMODE_USAGE("command.gamemode.usage"),
 	COMMAND_GAMEMODE_CONSOLE_USAGE("command.gamemode.console-usage"),
 	COMMAND_GAMEMODE_CHANGED("command.gamemode.changed", (locale, context) -> new TagResolver[]
@@ -53,8 +62,6 @@ public enum RolleriteMessage implements TranslatableMessage<RolleriteMessage.Con
 	}),
 	
 	COMMAND_OPENINV_USAGE("command.openinv.usage"),
-	
-	COMMAND_ENDERCHEST_USAGE("command.enderchest.usage"),
 	
 	COMMAND_TRASH_USAGE("command.trash.usage"),
 	

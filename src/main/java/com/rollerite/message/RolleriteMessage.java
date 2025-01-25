@@ -64,6 +64,10 @@ public enum RolleriteMessage implements TranslatableMessage<RolleriteMessage.Con
 	
 	COMMAND_OPENINV_USAGE("command.openinv.usage"),
 	
+	COMMAND_TOGGLEOP_ENABLED("command.toggleop.enabled"),
+	COMMAND_TOGGLEOP_DISABLED("command.toggleop.disabled"),
+	COMMAND_TOGGLEOP_USAGE("command.toggleop.usage"),
+	
 	COMMAND_TPACCEPT_YOU_ACCEPTED("command.tpaccept.you-accepted", (locale, context) -> new TagResolver[]
 	{
 		component("player", context.getSenderPlayer().displayName()),

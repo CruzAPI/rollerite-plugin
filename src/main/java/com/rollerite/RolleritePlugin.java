@@ -64,6 +64,9 @@ public class RolleritePlugin extends JavaPlugin
 		registerBasicCommand("gamemode", new GamemodeCommand(this));
 		registerBasicCommand("god", new GodCommand(this));
 		registerBasicCommand("openinv", new OpenInvCommand(this), "invsee");
+		registerBasicCommand("tpaccept", new TpacceptCommand(this));
+		registerBasicCommand("tpa", new TpaCommand(this));
+		registerBasicCommand("tpdeny", new TpdenyCommand(this));
 		registerBasicCommand("trash", new TrashCommand(this));
 	}
 	
